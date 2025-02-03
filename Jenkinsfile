@@ -1,13 +1,13 @@
 pipeline {
     agent any
 
-    // environment {
-    //     APP_NAME = "nodejs-app"
-    //     DOCKER_IMAGE = "your-dockerhub-username/nodejs-app"
-    //     EC2_USER = "ubuntu"  // Change if using Amazon Linux
-    //     EC2_HOST = "your-ec2-public-ip"
-    //     SSH_KEY = credentials('EC2-SSH-KEY')
-    // }
+    environment {
+        APP_NAME = "nodejs-app"
+        DOCKER_IMAGE = "sharathbg/jenkins_docker_ec2_node"
+        EC2_USER = "ubuntu"  // Change if using Amazon Linux
+        EC2_HOST = "your-ec2-public-ip"
+        SSH_KEY = credentials('EC2-SSH-KEY')
+    }
 
     stages {
         stage('Clone Repository') {
@@ -24,15 +24,15 @@ pipeline {
 
         stage('Run Tests') {
             steps {
-                sh 'npm tes'
+                sh 'npm test'
             }
         }
 
-        // stage('Build Docker Image') {
-        //     steps {
-        //         sh 'docker build -t $DOCKER_IMAGE .'
-        //     }
-        // }
+        stage('Build Docker Image') {
+            steps {
+                sh 'docker build -t $DOCKER_IMAGE .'
+            }
+        }
 
         // stage('Push Docker Image to DockerHub') {
         //     steps {
